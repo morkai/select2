@@ -2078,10 +2078,15 @@ the specific language governing permissions and limitations under the Apache Lic
                         this.selectHighlighted({noFocus: true});
                         return;
                     case KEY.ESC:
-                        this.cancel(e);
-                        killEvent(e);
                         return;
                 }
+            }));
+
+            this.search.on("keyup", this.bind(function (e) {
+              if (e.which === KEY.ESC && this.isInterfaceEnabled() && this.opened()) {
+                this.cancel(e);
+                killEvent(e);
+              }
             }));
 
             this.search.on("blur", this.bind(function(e) {
@@ -2693,10 +2698,6 @@ the specific language governing permissions and limitations under the Apache Lic
                         this.selectHighlighted({noFocus:true});
                         this.close();
                         return;
-                    case KEY.ESC:
-                        this.cancel(e);
-                        killEvent(e);
-                        return;
                     }
                 }
 
@@ -2729,6 +2730,11 @@ the specific language governing permissions and limitations under the Apache Lic
 
             this.search.on("keyup", this.bind(function (e) {
                 this.keydowns = 0;
+                if (e.which === KEY.ESC && this.isInterfaceEnabled() && this.opened()) {
+                  this.cancel(e);
+                  killEvent(e);
+                  return;
+                }
                 this.resizeSearch();
             })
             );
